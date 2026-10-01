@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LabSafe UI Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" type="button" data-go="dashboard" aria-label="Go to LabSafe dashboard">
+      <span class="brand-mark">LS</span>
+      <span><strong>LabSafe</strong><small>Safety before access</small></span>
+    </button>
+    <div class="role-switcher">
+      <label for="role">Prototype role</label>
+      <select id="role">
+        <option>Researcher</option>
+        <option>Laboratory Supervisor</option>
+        <option>Maintenance Technician</option>
+      </select>
+    </div>
+    <div class="user-chip"><span>DU</span><span>Demo User<small>Public prototype</small></span></div>
+  </header>
+
+  <div class="shell">
+    <nav class="sidebar" aria-label="Prototype navigation">
+      <button type="button" data-go="dashboard">Overview</button>
+      <p>Researcher</p>
+      <button type="button" data-go="catalog">Find equipment</button>
+      <button type="button" data-go="request-status">My requests</button>
+      <button type="button" data-go="recall-ack">Safety notices</button>
+      <p>Supervisor</p>
+      <button type="button" data-go="request-review">Approval queue</button>
+      <button type="button" data-go="handover">Handover / return</button>
+      <button type="button" data-go="recall-create">Recall control</button>
+      <p>Technician</p>
+      <button type="button" data-go="maintenance-queue">Maintenance queue</button>
+    </nav>
+
+    <main id="main-content" tabindex="-1">
+      <section class="screen" data-screen="dashboard">
+        <div class="page-heading">
+          <div><span class="eyebrow">Operational overview</span><h1>Safety-critical work, clearly routed.</h1><p>Navigate the four critical end-to-end prototype paths.</p></div>
+          <span class="status status-good">All services available</span>
+        </div>
+        <div class="metrics">
+          <article><small>Pending approvals</small><strong>6</strong><span>2 high risk</span></article>
+          <article><small>Checked out</small><strong>18</strong><span>1 due within 2 hours</span></article>
+          <article><small>Quarantined</small><strong>4</strong><span>3 assigned for service</span></article>
+          <article><small>Open recalls</small><strong>1</strong><span>2 returns unresolved</span></article>
+        </div>
+        <h2>Critical workflow paths</h2>
+        <div class="workflow-grid">
+          <article class="workflow-card"><span>UC-01</span><h3>Risk-controlled access</h3><p>Search, qualification check, risk review, and approval.</p><button type="button" class="primary" data-go="catalog">Start path</button></article>
+          <article class="workflow-card"><span>UC-02</span><h3>Handover and return</h3><p>Verify custody, compare condition, and inspect return.</p><button type="button" class="primary" data-go="handover">Start path</button></article>
+          <article class="workflow-card"><span>UC-03</span><h3>Fault and maintenance</h3><p>Diagnose, service, test, and submit for verification.</p><button type="button" class="primary" data-go="maintenance-queue">Start path</button></article>
+          <article class="workflow-card critical"><span>UC-04</span><h3>Safety recall</h3><p>Assess impact, block items, contact borrowers, and resolve.</p><button type="button" class="primary danger" data-go="recall-create">Start path</button></article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="catalog" hidden>
+        <div class="breadcrumb"><button data-go="dashboard">Overview</button><span>/</span><span>Find equipment</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-01 Step 1</span><h1>Find suitable equipment</h1><p>Availability is filtered by operational restrictions, not only calendar conflicts.</p></div></div>
+        <div class="filter-bar"><label>Purpose<input value="Thermal inspection of circuit board"></label><label>Use date<input type="date" value="2026-10-08"></label><label>Risk filter<select><option>All permitted levels</option></select></label><button type="button" class="secondary">Update</button></div>
+        <div class="equipment-list">
+          <article class="equipment-card"><div class="equipment-visual">TC</div><div><span class="status status-good">Available</span><h2>Thermal Camera T640</h2><p>Medium risk | Qualification: Thermal Imaging Basics</p><div class="tag-row"><span>Calibration valid</span><span>2 items eligible</span></div></div><button type="button" class="primary" data-go="request-create">Request access</button></article>
+          <article class="equipment-card restricted"><div class="equipment-visual">OS</div><div><span class="status status-warn">Restricted</span><h2>Digital Oscilloscope X3000</h2><p>High risk | Qualification expires before requested end time</p><div class="tag-row"><span>Supervisor approval</span><span>Qualification gap</span></div></div><button type="button" class="secondary" disabled>Not eligible</button></article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="request-create" hidden>
+        <div class="breadcrumb"><button data-go="catalog">Find equipment</button><span>/</span><span>Request access</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-01 Step 2</span><h1>Request Thermal Camera T640</h1><p>Qualification and item restrictions will be checked on submission.</p></div><span class="status status-info">Medium risk</span></div>
+        <form class="panel form-grid" data-submit-go="request-status">
+          <label class="wide">Intended purpose<textarea required>Inspect heat distribution on the prototype control board after a supervised power test.</textarea></label>
+          <label>Start<input type="datetime-local" value="2026-10-08T10:00" required></label>
+          <label>Due<input type="datetime-local" value="2026-10-08T16:00" required></label>
+          <label>Usage location<select><option>Electronics Laboratory B-204</option></select></label>
+          <label>Project reference<input value="Senior Design - Fictional Demo"></label>
+          <div class="check-card wide"><strong>Pre-submission checks</strong><p><span class="check">Pass</span> Affiliation active</p><p><span class="check">Pass</span> Thermal Imaging Basics valid through requested period</p><p><span class="check">Pass</span> Eligible item and calibration available</p></div>
+          <div class="actions wide"><button type="button" class="secondary" data-go="catalog">Cancel</button><button class="primary">Submit for review</button></div>
+        </form>
+      </section>
+
+      <section class="screen" data-screen="request-status" hidden>
+        <div class="breadcrumb"><button data-go="dashboard">Overview</button><span>/</span><span>Request AR-1042</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-01 Step 3</span><h1>Access request AR-1042</h1><p>The authoritative state is visible even if notification delivery is delayed.</p></div><span class="status status-warn">Pending approval</span></div>
+        <div class="two-column"><article class="panel"><h2>Request summary</h2><dl><dt>Equipment</dt><dd>Thermal Camera T640</dd><dt>Period</dt><dd>8 Oct, 10:00-16:00</dd><dt>Risk result</dt><dd>Medium, supervisor review required</dd><dt>Qualification</dt><dd>Verified at 09:42</dd></dl><button type="button" class="secondary" data-go="catalog">Return to catalog</button></article><article class="panel"><h2>Decision trail</h2><ol class="timeline"><li class="complete"><strong>Request submitted</strong><small>09:41</small></li><li class="complete"><strong>Qualifications verified</strong><small>09:42</small></li><li class="active"><strong>Supervisor review</strong><small>Assigned to Laboratory Supervisor</small></li><li><strong>Reservation created</strong><small>Waiting</small></li></ol><button type="button" class="text-button" data-go="request-review">Open supervisor view</button></article></div>
+      </section>
+
+      <section class="screen" data-screen="request-review" hidden>
+        <div class="breadcrumb"><button data-go="dashboard">Overview</button><span>/</span><span>Approval queue</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-01 Supervisor Decision</span><h1>Review AR-1042</h1><p>Approval evidence combines policy, qualifications, and equipment state.</p></div><span class="status status-warn">Decision required</span></div>
+        <div class="two-column"><article class="panel"><h2>Request and risk evidence</h2><dl><dt>Researcher</dt><dd>Deniz Kaya (fictional)</dd><dt>Purpose</dt><dd>Thermal inspection after supervised power test</dd><dt>Risk level</dt><dd>Medium</dd><dt>Policy result</dt><dd>Human approval required</dd></dl><div class="callout success"><strong>Mandatory checks passed</strong><p>Qualification, calibration, availability, recall, and maintenance restrictions verified.</p></div></article><form class="panel" data-submit-go="request-approved"><h2>Record decision</h2><label>Usage conditions<textarea>Use only in Electronics Laboratory B-204. Return with lens cap and battery set.</textarea></label><label>Decision rationale<textarea>Purpose and duration are appropriate; required qualification is valid.</textarea></label><div class="actions"><button type="button" class="secondary">Request revision</button><button class="primary">Approve and reserve</button></div></form></div>
+      </section>
+
+      <section class="screen" data-screen="request-approved" hidden>
+        <div class="result-card"><span class="result-icon">OK</span><span class="eyebrow">UC-01 Complete</span><h1>Reservation created</h1><p>AR-1042 is approved and item TC-014 is reserved. The decision and notification attempt are recorded separately.</p><div class="receipt"><span>Collection window<strong>8 Oct, 09:45-10:15</strong></span><span>Due<strong>8 Oct, 16:00</strong></span><span>Notification<strong>Accepted</strong></span></div><div class="actions center"><button type="button" class="secondary" data-go="dashboard">Overview</button><button type="button" class="primary" data-go="handover">Continue to handover</button></div></div>
+      </section>
+
+      <section class="screen" data-screen="handover" hidden>
+        <div class="breadcrumb"><button data-go="dashboard">Overview</button><span>/</span><span>Handover station</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-02 Handover</span><h1>Verify before custody changes</h1><p>Reservation, person, item, and current safety state must all match.</p></div><span class="status status-info">AR-1042</span></div>
+        <div class="stepper"><span class="active">1 Match</span><span>2 Condition</span><span>3 Acknowledge</span><span>4 Commit</span></div>
+        <div class="two-column"><article class="panel"><h2>Verified match</h2><div class="scan-box">Item TC-014<br><small>Barcode scan simulated</small></div><p><span class="check">Pass</span> Researcher identity active</p><p><span class="check">Pass</span> Qualification valid now</p><p><span class="check">Pass</span> Item reserved and unrestricted</p></article><form class="panel" data-submit-go="loan-active"><h2>Handover condition</h2><label>Body condition<select><option>No visible damage</option></select></label><label>Accessories<textarea>Lens cap, charger, two batteries, protective case</textarea></label><label class="checkbox"><input type="checkbox" required> Researcher acknowledged usage conditions and due time.</label><div class="actions"><button type="button" class="secondary" data-go="dashboard">Stop safely</button><button class="primary">Commit handover</button></div></form></div>
+      </section>
+
+      <section class="screen" data-screen="loan-active" hidden>
+        <div class="page-heading"><div><span class="eyebrow">UC-02 Active Custody</span><h1>Loan LN-882 is active</h1><p>Custody belongs to Deniz Kaya until a verified return is committed.</p></div><span class="status status-good">Checked out</span></div>
+        <article class="panel"><div class="receipt"><span>Item<strong>TC-014</strong></span><span>Handed over<strong>8 Oct, 09:58</strong></span><span>Due<strong>8 Oct, 16:00</strong></span></div><div class="actions"><button type="button" class="secondary" data-go="maintenance-queue">Report fault</button><button type="button" class="primary" data-go="return-inspection">Start return</button></div></article>
+      </section>
+
+      <section class="screen" data-screen="return-inspection" hidden>
+        <div class="breadcrumb"><button data-go="loan-active">Loan LN-882</button><span>/</span><span>Return inspection</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-02 Return</span><h1>Compare, inspect, decide</h1><p>A failed inspection closes physical custody but never restores unsafe availability.</p></div></div>
+        <form class="panel form-grid" data-submit-go="return-result">
+          <label>Returned item<input value="TC-014" readonly></label><label>Accessories<select><option>Complete</option><option>Missing item</option></select></label>
+          <label>Physical condition<select><option>No new damage</option><option>Non-safety damage</option><option>Safety concern</option></select></label><label>Functional check<select><option>Passed</option><option>Failed</option><option>Not safe to perform</option></select></label>
+          <label class="wide">Inspection note<textarea>Housing, display, lens, and battery contacts checked against handover condition.</textarea></label>
+          <fieldset class="wide"><legend>Operational decision</legend><label class="radio"><input type="radio" name="decision" checked> Return to available</label><label class="radio"><input type="radio" name="decision"> Hold for review</label><label class="radio"><input type="radio" name="decision"> Quarantine and open maintenance</label></fieldset>
+          <div class="actions wide"><button type="button" class="secondary" data-go="loan-active">Cancel</button><button class="primary">Commit return</button></div>
+        </form>
+      </section>
+
+      <section class="screen" data-screen="return-result" hidden>
+        <div class="result-card"><span class="result-icon">OK</span><span class="eyebrow">UC-02 Complete</span><h1>Custody returned safely</h1><p>Loan LN-882 is closed. Inspection IN-551 found no restriction, so TC-014 is available.</p><div class="actions center"><button type="button" class="primary" data-go="dashboard">Return to overview</button></div></div>
+      </section>
+
+      <section class="screen" data-screen="maintenance-queue" hidden>
+        <div class="breadcrumb"><button data-go="dashboard">Overview</button><span>/</span><span>Maintenance queue</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-03 Step 1</span><h1>Restricted equipment requiring action</h1><p>Priority reflects safety and operational impact, not submission order alone.</p></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Work order</th><th>Item</th><th>Trigger</th><th>Priority</th><th>State</th><th></th></tr></thead><tbody><tr><td>MW-230</td><td>Laser Meter LM-009</td><td>Failed return inspection</td><td><span class="status status-danger">Safety critical</span></td><td>Assigned</td><td><button class="text-button" data-go="maintenance-order">Open</button></td></tr><tr><td>MW-227</td><td>Microscope MS-031</td><td>Scheduled service</td><td>Normal</td><td>Waiting for parts</td><td><button class="text-button">Open</button></td></tr></tbody></table></div>
+      </section>
+
+      <section class="screen" data-screen="maintenance-order" hidden>
+        <div class="breadcrumb"><button data-go="maintenance-queue">Maintenance queue</button><span>/</span><span>MW-230</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-03 Technician Work</span><h1>Laser Meter LM-009</h1><p>Item remains quarantined throughout diagnosis and service.</p></div><span class="status status-danger">Quarantined</span></div>
+        <div class="two-column"><article class="panel"><h2>Initiating evidence</h2><dl><dt>Reported symptom</dt><dd>Intermittent power loss during return check</dd><dt>Inspection</dt><dd>IN-548</dd><dt>Restriction</dt><dd>No operation or handover</dd></dl><div class="callout danger"><strong>Safety restriction active</strong><p>Do not energize before enclosure and battery contacts are inspected.</p></div></article><form class="panel" data-submit-go="maintenance-verify"><h2>Service record</h2><label>Diagnosis<textarea required>Battery contact assembly is loose; enclosure shows no heat damage.</textarea></label><label>Work performed<textarea required>Re-seated and secured contact assembly; replaced worn battery clip.</textarea></label><label>Test evidence<textarea required>Five power cycles completed; voltage and thermal checks within service limits.</textarea></label><label class="checkbox"><input type="checkbox" required> No unresolved safety risk identified.</label><button class="primary full">Submit for verification</button></form></div>
+      </section>
+
+      <section class="screen" data-screen="maintenance-verify" hidden>
+        <div class="breadcrumb"><button data-go="maintenance-order">MW-230</button><span>/</span><span>Verification</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-03 Supervisor Verification</span><h1>Return-to-service decision</h1><p>Submission does not remove quarantine until an eligible verifier accepts the evidence.</p></div><span class="status status-warn">Awaiting verification</span></div>
+        <div class="two-column"><article class="panel"><h2>Evidence package</h2><p><span class="check">Recorded</span> Diagnosis and replaced part</p><p><span class="check">Recorded</span> Five-cycle functional test</p><p><span class="check">Recorded</span> Thermal and voltage check</p><p><span class="check">Pass</span> Verifier separation of duty</p></article><form class="panel" data-submit-go="maintenance-result"><h2>Verification outcome</h2><label>Decision<select><option>Accept and return to service</option><option>Reject: rework required</option><option>Recommend retirement</option></select></label><label>Verification rationale<textarea required>Evidence satisfies the defined return-to-service criteria.</textarea></label><button class="primary full">Commit verification</button></form></div>
+      </section>
+
+      <section class="screen" data-screen="maintenance-result" hidden>
+        <div class="result-card"><span class="result-icon">OK</span><span class="eyebrow">UC-03 Complete</span><h1>LM-009 returned to service</h1><p>MW-230 is verified and closed. Quarantine was removed through a separately authorized transition.</p><div class="actions center"><button type="button" class="primary" data-go="dashboard">Return to overview</button></div></div>
+      </section>
+
+      <section class="screen" data-screen="recall-create" hidden>
+        <div class="breadcrumb"><button data-go="dashboard">Overview</button><span>/</span><span>Create recall</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-04 Step 1</span><h1>Define a safety recall</h1><p>Review affected items before committing an immediate operational block.</p></div><span class="status status-danger">Safety action</span></div>
+        <form class="panel form-grid" data-submit-go="recall-impact">
+          <label class="wide">Safety evidence<textarea required>Manufacturer notice: battery lot B24-7 may overheat during charging.</textarea></label>
+          <label>Affected equipment type<select><option>Thermal Camera T640</option></select></label><label>Serial or batch criterion<input value="Battery lot B24-7"></label>
+          <label>Severity<select><option>Critical - stop use and return</option></select></label><label>Response deadline<input type="datetime-local" value="2026-10-01T17:00"></label>
+          <label class="wide">Safe-action instruction<textarea>Power off the camera, disconnect the charger, and arrange return without charging the affected battery.</textarea></label>
+          <div class="actions wide"><button type="button" class="secondary" data-go="dashboard">Save draft</button><button class="danger primary">Assess impact</button></div>
+        </form>
+      </section>
+
+      <section class="screen" data-screen="recall-impact" hidden>
+        <div class="breadcrumb"><button data-go="recall-create">Recall draft</button><span>/</span><span>Impact assessment</span></div>
+        <div class="page-heading"><div><span class="eyebrow">UC-04 Step 2</span><h1>Confirm affected scope</h1><p>Committing will block all listed items before notifications are sent.</p></div></div>
+        <div class="metrics"><article><small>Matching items</small><strong>4</strong><span>All will be blocked</span></article><article><small>Checked out</small><strong>2</strong><span>Return required</span></article><article><small>Reserved</small><strong>1</strong><span>Handover blocked</span></article><article><small>Available</small><strong>1</strong><span>Immediately restricted</span></article></div>
+        <div class="table-wrap"><table><thead><tr><th>Item</th><th>Current state</th><th>Custody / next use</th><th>Recall action</th></tr></thead><tbody><tr><td>TC-014</td><td>Checked out</td><td>Deniz Kaya</td><td>Safe return</td></tr><tr><td>TC-017</td><td>Checked out</td><td>Ece Aydin</td><td>Safe return</td></tr><tr><td>TC-021</td><td>Reserved</td><td>Collection 14:00</td><td>Cancel handover</td></tr><tr><td>TC-024</td><td>Available</td><td>-</td><td>Block</td></tr></tbody></table></div>
+        <div class="actions right"><button type="button" class="secondary" data-go="recall-create">Refine scope</button><button type="button" class="primary danger" data-go="recall-monitor">Commit recall and notify</button></div>
+      </section>
+
+      <section class="screen" data-screen="recall-monitor" hidden>
+        <div class="page-heading"><div><span class="eyebrow">UC-04 Resolution Control</span><h1>Recall RC-019</h1><p>The block is authoritative even when acknowledgement or delivery is unresolved.</p></div><span class="status status-danger">Open recall</span></div>
+        <div class="two-column"><article class="panel"><h2>Resolution progress</h2><ol class="timeline"><li class="complete"><strong>4 items blocked</strong><small>10:18</small></li><li class="complete"><strong>4 notifications accepted</strong><small>10:19</small></li><li class="active"><strong>1 of 2 active loans returned</strong><small>One acknowledgement unresolved</small></li><li><strong>Recall inspections complete</strong><small>Waiting</small></li></ol></article><article class="panel"><h2>Unresolved case</h2><span class="status status-warn">Acknowledgement overdue</span><dl><dt>Item</dt><dd>TC-017</dd><dt>Borrower</dt><dd>Ece Aydin (fictional)</dd><dt>Due</dt><dd>Today, 17:00</dd></dl><div class="actions"><button type="button" class="secondary">Record alternative contact</button><button type="button" class="primary" data-go="recall-ack">Open researcher view</button></div></article></div>
+      </section>
+
+      <section class="screen" data-screen="recall-ack" hidden>
+        <div class="page-heading"><div><span class="eyebrow">Researcher Safety Notice</span><h1>Immediate action required</h1><p>Thermal Camera TC-017 is included in safety recall RC-019.</p></div><span class="status status-danger">Stop use</span></div>
+        <article class="panel notice"><h2>Safe action</h2><p>Power off the camera, disconnect the charger, and do not charge the affected battery. Arrange return without further operation.</p><div class="callout"><strong>Do not attempt repair.</strong><p>If safe return is not currently possible, report the situation so a supervisor can coordinate assistance.</p></div><div class="actions"><button type="button" class="secondary">Report return difficulty</button><button type="button" class="primary" data-go="recall-monitor">Acknowledge and arrange return</button></div></article>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
