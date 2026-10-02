@@ -118,6 +118,7 @@ dd { margin: 0; }
 .callout { margin-top: 16px; padding: 14px; border-left: 4px solid var(--blue); background: #edf5ff; }
 .callout.success { border-left-color: var(--green); background: #eefaf5; }
 .callout.danger { border-left-color: var(--red); background: var(--red-soft); }
+.callout.danger p { color: #566475; }
 .callout p { margin: 4px 0 0; }
 
 .stepper { display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 20px; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: white; }
